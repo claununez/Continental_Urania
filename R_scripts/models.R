@@ -1,83 +1,84 @@
 ################
-# Project: Disjunct distributions of continental Urania 
-# Authors: Marlon Cobos, Claudia Nunez-Penichet
+# Project: Non-overlapping climatic niches and biogeographic barriers explain
+#          disjunct distributions of continental Urania moths
+# Authors: Claudia Nunez-Penichet, Marlon Cobos, Jorge Soberon
 # Process: Ecological Niche Modeling
-# Date: 03/14/2020
+# Date: 16/02/2021
 ################
 
-#Instaling packages
-#install.packages("devtools")
-#devtools::install_github("marlonecobos/ellipsenm")
+#Installing and loading packages
+#install.packages("remotes")
+#remotes::install_github("marlonecobos/ellipsenm")
 library(ellipsenm)
 library(raster)
 
+#Working directory
+setwd("YOUR/DIRECTORY/Data")
+
+
 #####
-
 ##Omphalea
-#Establishing working directory
-setwd("C:/8.ellipse_enm/Omphalea/All")
-
 #Reading occurrence data
-omp <- read.csv("omph_joint.csv")
+omp <- read.csv("Omphalea_spp.csv")
 
 #Reading varaiables
-vari <- list.files(path = "Set_2", pattern = ".asc$", full.names = T)
+vari <- list.files(path = "Current_variables_omp", pattern = ".tif$",
+                   full.names = TRUE)
 variables <- stack(vari)
 
 #Creating the models
-el <- ellipsoid_model(data = omp, species = "name", longitude = "Longitude", latitude = "Latitude", 
-                      raster_layers = variables,
+el <- ellipsoid_model(data = omp, species = "name", longitude = "Longitude",
+                      latitude = "Latitude", raster_layers = variables,
                       method = "covmat", level = 95, replicates = 10,
                       replicate_type = "bootstrap", bootstrap_percentage = 75,
-                      projection_variables = NULL, prvariables_format = NULL,
+                      projection_variables = "Var_project_omp",
+                      prvariables_format = "GTiff",
                       prediction = "suitability", return_numeric = TRUE,
-                      tolerance = 1e-60, format = "GTiff", overwrite = TRUE,
-                      color_palette = viridis::magma, output_directory = "ellipsenm_model")
+                      tolerance = 1e-60, format = "GTiff",
+                      color_palette = viridis::magma,
+                      output_directory = "ellipsenm_model_omp")
+
+
 
 #####
+#Urania species
 
 ##Urania fulgens
-#Establishing working directory
-setwd("C:/8.ellipse_enm/Urania/U.fulgens")
-
 #Reading occurrence data
-u.ful <- read.csv("u.fulge_joint.csv")
+u.ful <- read.csv("Urania_fulgens.csv")
 
 #Reading varaiables
-vari <- list.files(path = "Set_2", pattern = ".asc$", full.names = T)
+vari <- list.files(path = "Current_variables_ura", pattern = ".tif$",
+                   full.names = TRUE)
 variables <- stack(vari)
 
+
 #Creating the models
-el <- ellipsoid_model(data = u.ful, species = "name", longitude = "Longitude", latitude = "Latitude", 
-                      raster_layers = variables,
+el <- ellipsoid_model(data = u.ful, species = "name", longitude = "Longitude",
+                      latitude = "Latitude", raster_layers = variables,
                       method = "covmat", level = 95, replicates = 10,
                       replicate_type = "bootstrap", bootstrap_percentage = 75,
-                      projection_variables = NULL, prvariables_format = NULL,
+                      projection_variables = "Var_project_ura",
+                      prvariables_format = "GTiff",
                       prediction = "suitability", return_numeric = TRUE,
-                      tolerance = 1e-60, format = "GTiff", overwrite = FALSE,
-                      color_palette = viridis::magma, output_directory = "ellipsenm_model")
+                      tolerance = 1e-60, format = "GTiff",
+                      color_palette = viridis::magma,
+                      output_directory = "ellipsenm_model_uful")
 
-#####
+
 
 ##Urania leilus
-#Establishing working directory
-setwd("C:/8.ellipse_enm/Urania/U.leilus")
-
 #Reading occurrence data
-u.lei <- read.csv("u.lei_joint.csv")
-
-#Reading varaiables
-vari <- list.files(path = "Set_1", pattern = ".asc$", full.names = T)
-variables <- stack(vari)
+u.lei <- read.csv("Urania_leilus.csv")
 
 #Creating the models
-el <- ellipsoid_model(data = u.lei, species = "name", longitude = "Longitude", latitude = "Latitude", 
-                      raster_layers = variables,
+el <- ellipsoid_model(data = u.lei, species = "name", longitude = "Longitude",
+                      latitude = "Latitude", raster_layers = variables,
                       method = "covmat", level = 95, replicates = 10,
                       replicate_type = "bootstrap", bootstrap_percentage = 75,
-                      projection_variables = NULL, prvariables_format = NULL,
+                      projection_variables = "Var_project_ura",
+                      prvariables_format = "GTiff",
                       prediction = "suitability", return_numeric = TRUE,
-                      tolerance = 1e-60, format = "GTiff", overwrite = T,
-                      color_palette = viridis::magma, output_directory = "ellipsenm_model")
-
-
+                      tolerance = 1e-60, format = "GTiff",
+                      color_palette = viridis::magma,
+                      output_directory = "ellipsenm_model_ulei")
